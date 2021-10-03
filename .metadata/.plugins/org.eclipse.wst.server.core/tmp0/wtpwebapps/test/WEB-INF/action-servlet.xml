@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd">
+
+
+	<context:component-scan base-package="com.test.view"/>
+	
+	
+	
+	<bean id="exceptionResolver" 
+	class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+		 <property name="exceptionMappings">
+		 	<props>
+		 		<prop key="java.lang.NullPointerException">
+		 			index.jsp
+		 		</prop>
+		 	</props>
+		 </property>
+		 <property name="defaultErrorView" value="error.jsp"/>
+	</bean>
+	<!-- HandlerMapping 등록
+	<bean class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+		<property name="mappings">
+			<props>
+				<prop key="/insertMsg.do">insertMsg</prop>
+				<prop key="/getMsgList.do">getMsgList</prop>
+				<prop key="/getMsg.do">getMsg</prop>
+				<prop key="/updateMsg.do">updateMsg</prop>
+				<prop key="/deleteMsg.do">deleteMsg</prop>
+			</props>
+		</property>
+	</bean>
+
+	Controller 목록
+	<bean id="insertMsg" class="com.test.view.message.InsertMsgController" />
+	<bean id="getMsgList" class="com.test.view.message.GetMsgListController" />
+	<bean id="getMsg" class="com.test.view.message.GetMsgController" />
+	<bean id="updateMsg" class="com.test.view.message.UpdateController" />
+	<bean id="deleteMsg" class="com.test.view.message.DeleteMsgController" />
+		
+ViewResolver 등록 -->
+	
+
+</beans>

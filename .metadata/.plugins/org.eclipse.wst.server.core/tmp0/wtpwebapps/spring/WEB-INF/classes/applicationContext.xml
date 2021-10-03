@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
+	xsi:schemaLocation="http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.2.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.2.xsd">
+
+	<context:component-scan base-package="com.kim.app" />
+	
+	
+	
+	<!-- SessionFactory를 만들어낼 수 있는 Bean을 작성 -->
+	<bean id ="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="ds"/>
+      <property name="configLocation" value="classpath:sql-map-config.xml" />
+	</bean>
+	<!-- <bean id="sessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+      <property name="dataSource" ref="ds"></property>
+      <property name="configLocation" value="classpath:/sql-map-config.xml" />
+   </bean> -->
+	<bean id="SqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg ref="sqlSessionFactory"/>
+	</bean>
+	
+	<!-- <aop:aspectj-autoproxy></aop:aspectj-autoproxy>  -->
+	
+	<!-- DataSource -->
+	<bean class="org.apache.commons.dbcp.BasicDataSource" id="ds" destroy-method="close">
+		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
+		<property name="url" value="jdbc:oracle:thin:@localhost:1521:xe" />
+		<property name="username" value="heo" />
+		<property name="password" value="0000" />
+	</bean>
+	
+	<!-- Transaction 설정 -->
+	<bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="ds"></property>
+	</bean>
+	
+	<tx:advice id="txAdvice" transaction-manager="txManager">
+		<tx:attributes>
+			<tx:method name="get*" read-only="true"/>
+			<tx:method name="*"/>
+		</tx:attributes>
+	</tx:advice>
+	
+	<aop:config>
+		<aop:pointcut expression="execution(* com.kim.app..*Impl.*(..))" id="allPC"/>
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="allPC"/>
+	</aop:config>
+	
+	<!-- Spring JDBC 설정 -->
+	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+		<property name="dataSource" ref="ds" />
+	</bean>
+	
+	<!-- 
+	<bean class="com.kim.app.common.BeforeAdvice" id="beforeClient" />
+	<bean class="com.kim.app.common.AfterAdvice" id="dataGood" />
+	<aop:config>
+		<aop:pointcut expression="execution(* com.kim.app..*Impl.*(..))" id="allPC"/>
+		<aop:pointcut expression="execution(* com.kim.app..*Impl.get*(..))" id="getPC"/>
+		<aop:aspect ref="dataGood">
+			<aop:after method="printLog" pointcut-ref="getPC"/>
+		</aop:aspect>
+		<aop:aspect ref="beforeClient">
+			<aop:before method="printLog" pointcut-ref="allPC"/>
+		</aop:aspect>
+	</aop:config>
+	-->
+	<!--
+	<bean class="com.kim.app.common.BeforeAdvice" id="ba" />
+	<bean class="com.kim.app.common.AfterAdvice" id="aa" />
+	<bean class="com.kim.app.common.AfterThrowingAdvice" id="ata" />
+	<bean class="com.kim.app.common.AfterReturningAdvice" id="ara" />
+	<bean class="com.kim.app.common.AroundAdvice" id="around" />
+	<aop:config>
+		<aop:pointcut expression="execution(* com.kim.app..*Impl.*(..))" id="aPointcut"/>
+		<aop:pointcut expression="execution(* com.kim.app..*Impl.get*(..))" id="bPointcut"/>
+		<aop:aspect	ref="ba">
+			<aop:before method="printLog" pointcut-ref="aPointcut"/>
+		</aop:aspect>
+		
+		<aop:aspect ref="aa">
+			<aop:after method="printLog" pointcut-ref="aPointcut"/>
+		</aop:aspect>
+		
+		<aop:aspect ref="ata">
+			<aop:after-throwing method="printLog" throwing="exObj" pointcut-ref="aPointcut"/>
+		</aop:aspect>
+		
+		<aop:aspect ref="ara">
+			<aop:after-returning method="printLog" returning="reObj" pointcut-ref="bPointcut"/>
+		</aop:aspect>
+			 returning속성은 bm 결과값 리턴시에 매핑하는 속성, ara에만 사용 
+		<aop:aspect ref="around">
+			<aop:around method="printLog" pointcut-ref="aPointcut"/>
+		</aop:aspect>
+	</aop:config>
+ 	-->
+ 
+<!-- 
+	<context:component-scan base-package="coupling" />
+	<bean class="coupling.AppleWatch" id="watch" />
+-->
+ 
+<!-- 
+	<bean class="coupling.IPhone" id="phone" p:watch-ref="aw" p:user="아무무" />
+	
+	<bean class="coupling.GalPhone" id="galphone" p:watch-ref="sw" />
+
+	<bean class="coupling.AppleWatch" id="aw" lazy-init="true" />
+	<bean class="coupling.SmartWatch" id="sw" lazy-init="true" />
+-->
+ 
+	<!--
+	<bean class="collection.CollectionBean" id="cb">
+		<property name="dataList">
+			<list>
+				<value>홍길동</value>
+				<value>임꺽정</value>
+				<value>아리</value>
+			</list>
+		</property>
+	</bean>
+	-->
+	 
+</beans>

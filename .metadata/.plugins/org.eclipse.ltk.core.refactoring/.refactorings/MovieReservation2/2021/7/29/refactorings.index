@@ -1,0 +1,18 @@
+1626344329167	Delete element
+1626344570181	Rename resource 'applicationContext,xml.xml'
+1626345921979	Rename resource 'home.jsp'
+1626346377992	Delete element
+1626346553213	Move 'main.jsp' to 'webapp'
+1626351683376	Delete element
+1626351763277	Rename package 'com.heo.app'
+1626351801060	Rename package 'com.heo.app.gate'
+1626351827535	Rename package 'com.heo.app.gate.impl'
+1626351836253	Rename package 'com.heo.app.movie'
+1626351843327	Rename package 'com.heo.app.movie.impl'
+1626351856713	Rename package 'com.heo.app.user'
+1626351864890	Rename package 'com.heo.app.user.impl'
+1626352400238	Copy compilation unit
+1626352407164	Copy compilation unit
+1626352414783	Copy compilation units
+1626352434870	Copy compilation units
+1626352487709	Copy compilation units

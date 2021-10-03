@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 
+
+<![CDATA[
+		select * from board where id=#{id}
+	]]>
+ -->
+<mapper namespace="BoardDAO">
+
+	<select id="getBoard" resultType="board" parameterType="board">
+
+		select * from ls_board;
+
+	</select>
+
+	<insert id="insertBoard" parameterType="board">
+		INSERT INTO ls_board(img, content, userid) values(#{img},#{content},#{user})
+	</insert>
+
+
+</mapper>
