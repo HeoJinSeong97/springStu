@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.2.xsd">
+
+	<context:component-scan base-package="com.heo.finaltest"/>
+<!-- aop 조인포인트 : 핵심관심, 비즈니스 메서드
+포인트컷 :(조인포인트 중) 횡단관심의 수행대상
+어드바이스 : 횡단관심, 공통기능 메서드 - 수행시점을 설정
+위빙 : 핵심관심에 횡단관심이 추가되는 과정, 수행
+애스팩트, 어드바이저 : 포인트컷 + 어드바이스 결합
+ -->
+	<!-- DataSource -->
+	<bean class="org.apache.commons.dbcp.BasicDataSource" id="ds" destroy-method="close">
+		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
+		<property name="url" value="jdbc:oracle:thin:@localhost:1521:xe" />
+		<property name="username" value="heo" />
+		<property name="password" value="0000" />
+	</bean>
+	
+	<!-- Spring JDBC 설정 -->
+	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+		<property name="dataSource" ref="ds" />
+	</bean>
+
+</beans>
