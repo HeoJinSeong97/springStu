@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 
+
+<![CDATA[
+		select * from board where id=#{id}
+	]]>
+ -->
+<mapper namespace="BoardDAO">
+
+	<select id="getBoard" resultType="board" parameterType="board">
+
+		select * from board where id=#{id}
+
+	</select>
+
+	<select id="getBoardList" resultType="board" parameterType="board">
+		select * from board where 1=1
+		<if test="search==title">
+			and title like '%'||#{searchContent}||'%'
+		</if>
+		<if test="search==content">
+			content like '%'||#{searchContent}||'%'
+		</if>
+		 order by id desc
+	</select>
+ 	<select id="getBoardList2" resultType="board" parameterType="board">
+		select * from board where title like '%'||#{searchContent}||'%' order by id desc
+	</select>
+
+	<insert id="insertBoard" parameterType="board">
+		insert into board (id,title,writer,content) values((select nvl(max(id),0)+1 from board),#{title},#{writer},#{content})
+	</insert>
+
+	<update id="updateBoard" parameterType="board">
+		update board set title=#{title}, content=#{content} where id=#{id}
+	</update>
+
+	<delete id="deleteBoard" parameterType="board">
+		delete board where id=#{id}
+	</delete>
+
+</mapper>

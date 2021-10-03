@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+  <!-- Mybaties 관련 메인 
+  ds 스프링 컨테이너 쪽에서 사용하고 있으므로 더이상 필요xxx
+  sqlsessionfactory 객체를 mybaties-spring연동 리소스에서 제공
+  
+  -->
+<configuration>
+	<typeAliases>
+		<typeAlias type="com.kim.app.board.BoardVO" alias="board" />
+		<typeAlias type="com.kim.app.users.UsersVO" alias="user" />
+	</typeAliases>
+	<mappers>
+		<mapper resource="mappings/board-mapping.xml" />
+		<mapper resource="mappings/user-mapping.xml" />
+	</mappers>
+	
+</configuration>
+
+
